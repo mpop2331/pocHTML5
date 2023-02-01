@@ -1,0 +1,18 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<ViewSettingsDialog id="viewSettingsDialog" confirm=".onConfirmViewSettingsDialog">
+		<sortItems>
+			<ViewSettingsItem text="{i18n>tableProdColumnTitle}" key="ID" selected="true"/>
+			<ViewSettingsItem text="{i18n>tablePDescColumnTitle}" key="Description"/>
+			<ViewSettingsItem text="{i18n>tableUploadedOnTitle}" key="UploadedOn"/>
+			<ViewSettingsItem text="{i18n>tableUploadedByTitle}" key="UploadedBy"/>
+			<ViewSettingsItem text="{i18n>tableFilenameTitle}" key="FileName"/>
+		</sortItems>
+		<groupItems>
+			<ViewSettingsItem text="{i18n>tableProdColumnTitle}" key="ID"/>
+			<ViewSettingsItem text="{i18n>tablePDescColumnTitle}" key="Description"/>
+			<ViewSettingsItem text="{i18n>tableUploadedOnTitle}" key="UploadedOn"/>
+			<ViewSettingsItem text="{i18n>tableUploadedByTitle}" key="UploadedBy"/>
+			<ViewSettingsItem text="{i18n>tableFilenameTitle}" key="FileName"/>
+		</groupItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

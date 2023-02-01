@@ -1,0 +1,33 @@
+<core:FragmentDefinition xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns="sap.m" xmlns:m="sap.m">
+	<Dialog title="Classification code selection">
+		<content>
+			<m:Table id="IDnumberingSchemeTab" items="{NumberingSchemes>/numSchemes}" width="100%" noDataText="No data" mode="None" showSeparators="All">
+				<m:headerToolbar>
+					<m:Toolbar id="myNavigationToolBar">
+						<Button id="idNavBackDia" icon="sap-icon://navigation-left-arrow" tooltip="Go Up" visible="false" press="onPressGoUp" type="Ghost" />
+					</m:Toolbar>
+				</m:headerToolbar>
+				<m:columns>
+					<m:Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Block" mergeDuplicates="false">
+						<m:header>
+							<m:Text text="Classification code list" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit"/>
+						</m:header>
+						<m:footer/>
+					</m:Column>
+				</m:columns>
+				<m:items/>
+				<m:items>
+					<m:ColumnListItem type="Navigation" press="onDetailPress">
+						<m:cells>
+							<m:ObjectIdentifier title="{NumberingSchemes>Ccngn}" text="{NumberingSchemes>Description}" titleActive="false" visible="true"/>
+						</m:cells>
+					</m:ColumnListItem>
+				</m:items>
+			</m:Table>
+		</content>
+		<beginButton>
+			<Button text="Close" press="onCloseTariffDialog"/>
+		</beginButton>
+	</Dialog>
+</core:FragmentDefinition>

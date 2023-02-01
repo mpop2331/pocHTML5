@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="CatalogService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Product" EntityType="CatalogService.Product">
+                    <NavigationPropertyBinding Path="to_Classification" Target="Classification"/>
+                    <NavigationPropertyBinding Path="to_Status" Target="Status"/>
+                </EntitySet>
+                <EntitySet Name="Classification" EntityType="CatalogService.Classification">
+                    <NavigationPropertyBinding Path="Product" Target="Product"/>
+                    <NavigationPropertyBinding Path="to_Status" Target="Status"/>
+                    <NavigationPropertyBinding Path="to_Scheme" Target="Scheme"/>
+                </EntitySet>
+                <EntitySet Name="Scheme" EntityType="CatalogService.Scheme"/>
+                <EntitySet Name="Code" EntityType="CatalogService.Code"/>
+                <EntitySet Name="CodeDescription" EntityType="CatalogService.CodeDescription"/>
+                <EntitySet Name="ClientAttribute" EntityType="CatalogService.ClientAttribute"/>
+                <EntitySet Name="Attribute" EntityType="CatalogService.Attribute"/>
+                <EntitySet Name="User" EntityType="CatalogService.User"/>
+                <EntitySet Name="SchemeUser" EntityType="CatalogService.SchemeUser"/>
+                <EntitySet Name="Status" EntityType="CatalogService.Status"/>
+            </EntityContainer>
+            <EntityType Name="Product">
+                <Key>
+                    <PropertyRef Name="GUID"/>
+                </Key>
+                <Property Name="GUID" Type="Edm.String" MaxLength="32" Nullable="false"/>
+                <Property Name="ID" Type="Edm.String" MaxLength="60"/>
+                <Property Name="Client" Type="Edm.String" MaxLength="32"/>
+                <Property Name="Description" Type="Edm.String" MaxLength="500"/>
+                <Property Name="Language" Type="Edm.String" MaxLength="2" DefaultValue="EN"/>
+                <Property Name="Status" Type="Edm.Int32" DefaultValue="0"/>
+                <Property Name="UploadedOn" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="UploadedBy" Type="Edm.String" MaxLength="32"/>
+                <Property Name="FileName" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DropOnReset" Type="Edm.Byte"/>
+                <Property Name="ClassRequest" Type="Edm.String" MaxLength="50" DefaultValue=""/>
+                <Property Name="ExpertClassificationReq" Type="Edm.Byte" DefaultValue="1"/>
+                <Property Name="ScoringDate" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="Completion" Type="Edm.Int32"/>
+                <NavigationProperty Name="to_Classification" Type="Collection(CatalogService.Classification)" Partner="Product">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="to_Status" Type="CatalogService.Status">
+                    <ReferentialConstraint Property="Status" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Classification">
+                <Key>
+                    <PropertyRef Name="GUID"/>
+                </Key>
+                <Property Name="GUID" Type="Edm.Guid" Nullable="false"/>
+                <NavigationProperty Name="Product" Type="CatalogService.Product" Partner="to_Classification">
+                    <ReferentialConstraint Property="Product_GUID" ReferencedProperty="GUID"/>
+                </NavigationProperty>
+                <Property Name="Product_GUID" Type="Edm.String" MaxLength="32"/>
+                <Property Name="Scheme" Type="Edm.String" MaxLength="32"/>
+                <Property Name="CodeID" Type="Edm.String" MaxLength="32"/>
+                <Property Name="Priority" Type="Edm.Int32"/>
+                <Property Name="ConfidenceLevel" Type="Edm.Single"/>
+                <Property Name="Type" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DropOnReset" Type="Edm.Byte"/>
+                <Property Name="Status" Type="Edm.Int32" DefaultValue="0"/>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="32"/>
+                <Property Name="CreatedOn" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="AssignedOn" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="AssignedTo" Type="Edm.String" MaxLength="32"/>
+                <Property Name="ClassifiedBy" Type="Edm.String" MaxLength="32"/>
+                <Property Name="ClassifiedOn" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="ValidatedBy" Type="Edm.String" MaxLength="32"/>
+                <Property Name="ValidatedOn" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="ValidFrom" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="ValidTill" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="ManualClassification" Type="Edm.Int32" DefaultValue="0"/>
+                <Property Name="FromClassificationReq" Type="Edm.Byte"/>
+                <Property Name="SentToGTS" Type="Edm.Byte"/>
+                <Property Name="SentToML" Type="Edm.Byte"/>
+                <Property Name="ValidForML" Type="Edm.Byte" DefaultValue="1"/>
+                <NavigationProperty Name="to_Status" Type="CatalogService.Status">
+                    <ReferentialConstraint Property="Status" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <NavigationProperty Name="to_Scheme" Type="CatalogService.Scheme">
+                    <ReferentialConstraint Property="to_Scheme_Scheme" ReferencedProperty="Scheme"/>
+                </NavigationProperty>
+                <Property Name="to_Scheme_Scheme" Type="Edm.String" MaxLength="32"/>
+            </EntityType>
+            <EntityType Name="Scheme">
+                <Key>
+                    <PropertyRef Name="Scheme"/>
+                </Key>
+                <Property Name="Scheme" Type="Edm.String" MaxLength="32" Nullable="false"/>
+                <Property Name="Name" Type="Edm.String" MaxLength="100"/>
+                <Property Name="Version" Type="Edm.Int32"/>
+                <Property Name="TopLevel" Type="Edm.String" MaxLength="32"/>
+                <Property Name="BottomLevel" Type="Edm.String" MaxLength="32"/>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="32"/>
+                <Property Name="CreatedOn" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastModifiedBy" Type="Edm.String" MaxLength="32"/>
+                <Property Name="LastModifiedOn" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="ValidForECCN" Type="Edm.Byte" DefaultValue="0"/>
+            </EntityType>
+            <EntityType Name="Code">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="Scheme"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" MaxLength="32" Nullable="false"/>
+                <Property Name="Scheme" Type="Edm.String" MaxLength="32" Nullable="false"/>
+                <Property Name="ValidFrom" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="ValidTill" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="Code" Type="Edm.String" MaxLength="32"/>
+                <Property Name="ParentID" Type="Edm.String" MaxLength="32"/>
+                <Property Name="Level" Type="Edm.String" MaxLength="8"/>
+            </EntityType>
+            <EntityType Name="CodeDescription">
+                <Key>
+                    <PropertyRef Name="CodeID"/>
+                    <PropertyRef Name="Scheme"/>
+                    <PropertyRef Name="Language"/>
+                </Key>
+                <Property Name="CodeID" Type="Edm.String" MaxLength="32" Nullable="false"/>
+                <Property Name="Scheme" Type="Edm.String" MaxLength="32" Nullable="false"/>
+                <Property Name="Language" Type="Edm.String" MaxLength="2" Nullable="false"/>
+                <Property Name="Description" Type="Edm.String" MaxLength="5000"/>
+            </EntityType>
+            <EntityType Name="ClientAttribute">
+                <Key>
+                    <PropertyRef Name="ProductGUID"/>
+                </Key>
+                <Property Name="ProductGUID" Type="Edm.String" MaxLength="32" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Attribute">
+                <Key>
+                    <PropertyRef Name="Name"/>
+                </Key>
+                <Property Name="Name" Type="Edm.String" MaxLength="100" Nullable="false"/>
+                <Property Name="ML" Type="Edm.Byte"/>
+                <Property Name="Active" Type="Edm.Byte" DefaultValue="1"/>
+            </EntityType>
+            <EntityType Name="User">
+                <Key>
+                    <PropertyRef Name="User"/>
+                </Key>
+                <Property Name="User" Type="Edm.String" MaxLength="64" Nullable="false"/>
+                <Property Name="FirstName" Type="Edm.String" MaxLength="64"/>
+                <Property Name="LastName" Type="Edm.String" MaxLength="64"/>
+                <Property Name="Email" Type="Edm.String" MaxLength="64"/>
+                <Property Name="Client" Type="Edm.String" MaxLength="32"/>
+                <Property Name="Role" Type="Edm.Int32" Nullable="false" DefaultValue="1"/>
+                <Property Name="Language" Type="Edm.String" MaxLength="2"/>
+                <Property Name="Status" Type="Edm.Byte"/>
+                <Property Name="ModifiedBy" Type="Edm.String" MaxLength="32"/>
+                <Property Name="ModifiedDate" Type="Edm.DateTimeOffset" Precision="7"/>
+            </EntityType>
+            <EntityType Name="SchemeUser">
+                <Key>
+                    <PropertyRef Name="Scheme"/>
+                    <PropertyRef Name="Client"/>
+                    <PropertyRef Name="User"/>
+                </Key>
+                <Property Name="Scheme" Type="Edm.String" MaxLength="32" Nullable="false"/>
+                <Property Name="Client" Type="Edm.String" MaxLength="32" Nullable="false"/>
+                <Property Name="User" Type="Edm.String" MaxLength="32" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Status">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="Object"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Object" Type="Edm.String" MaxLength="32" Nullable="false"/>
+                <Property Name="Name" Type="Edm.String" MaxLength="32"/>
+            </EntityType>
+            <Annotations Target="CatalogService.Scheme/CreatedOn">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService.Scheme/LastModifiedOn">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

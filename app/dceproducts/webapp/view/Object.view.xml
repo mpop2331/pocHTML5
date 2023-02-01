@@ -1,0 +1,213 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout"
+	xmlns:u="sap.ui.unified" controllerName="be.deloitte.dce.dceproducts.controller.Object">
+	<semantic:SemanticPage headerPinnable="true" toggleHeaderOnTitleClick="false" preserveHeaderStateOnScroll="true" showFooter="false"
+		busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
+		<semantic:titleHeading>
+			<Title text="Product"/>
+		</semantic:titleHeading>
+		<semantic:headerContent>
+			<Panel backgroundDesign="Transparent">
+				<content>
+					<f:Form id="FormDisplay354wide" editable="false">
+						<f:layout>
+							<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="4" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+								emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+						</f:layout>
+						<f:formContainers>
+							<f:FormContainer>
+								<f:formElements>
+									<f:FormElement label="{i18n>Productnumber}">
+										<f:fields>
+											<Text text="{ID}"/>
+										</f:fields>
+									</f:FormElement>
+								</f:formElements>
+							</f:FormContainer>
+							<f:FormContainer>
+								<f:formElements>
+									<f:FormElement label="{i18n>Description}">
+										<f:fields>
+											<Text text="{path: 'Description', formatter: '.formatter.specialChar'}"/>
+										</f:fields>
+									</f:FormElement>
+								</f:formElements>
+							</f:FormContainer>
+							<f:FormContainer>
+								<f:formElements>
+									<f:FormElement label="{i18n>expertClassificationRequired}">
+										<f:fields>
+											<Text text="{path: 'ExpertClassificationReq', formatter: '.formatter.yesNoAlways'}"/>
+										</f:fields>
+									</f:FormElement>
+								</f:formElements>
+							</f:FormContainer>
+						</f:formContainers>
+					</f:Form>
+				</content>
+			</Panel>
+		</semantic:headerContent>
+		<semantic:content>
+			<l:VerticalLayout width="100%">
+				<Panel backgroundDesign="Transparent" headerText="Classification Info" expandable="true" expanded="true">
+					<content>
+						<!--<List-->
+						<!--	id="idClassList"-->
+						<!--	noDataText="No classifications available"-->
+						<!--	showSeparators="Inner"-->
+						<!--	items="{path: 'Classifications'}"-->
+						<!--	growing="true"-->
+						<!--	growingThreshold="5">-->
+						<Table items="{ path: '/Classifications', sorter: { path: 'ClassifiedOn', descending: true } }" id="tList">
+							<columns>
+								<Column></Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<f:Form editable="false">
+											<f:layout>
+												<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
+													emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false"/>
+											</f:layout>
+											<f:formContainers>
+												<f:FormContainer>
+													<f:formElements>
+														<f:FormElement label="Scheme">
+															<f:fields>
+																<Text text="{Scheme}"/>
+															</f:fields>
+														</f:FormElement>
+														<f:FormElement label="Classification">
+															<f:fields>
+																<Text text="{= ${Code} !== null ? ${Code} : '/'}"/>
+															</f:fields>
+														</f:FormElement>
+														<f:FormElement label="Valid From">
+															<f:fields>
+																<Text text="{path: 'ValidFrom', formatter: '.formatter.formatterOnlyDate'}"/>
+															</f:fields>
+														</f:FormElement>
+													</f:formElements>
+												</f:FormContainer>
+												<f:FormContainer>
+													<f:formElements>
+														<f:FormElement label="Classified By">
+															<f:fields>
+																<Text text="{= ${ClassifiedBy} !== null ? ${ClassifiedBy} : '/'}"/>
+															</f:fields>
+														</f:FormElement>
+														<f:FormElement label="Classified On">
+															<f:fields>
+																<Text text="{path: 'ClassifiedOn', formatter: '.formatter.formatterDate'}"/>
+															</f:fields>
+														</f:FormElement>
+														<f:FormElement label="Valid To">
+															<f:fields>
+																<Text text="{path: 'ValidTill', formatter: '.formatter.formatterOnlyDate'}"/>
+															</f:fields>
+														</f:FormElement>
+													</f:formElements>
+												</f:FormContainer>
+												<f:FormContainer>
+													<f:formElements>
+														<f:FormElement label="{= ${ClassStatus} !== -2 ? 'Validated By' : 'Rejected By'}">
+															<f:fields>
+																<Text text="{= ${ValidatedBy} !== null ? ${ValidatedBy} : '/'}"/>
+															</f:fields>
+														</f:FormElement>
+														<f:FormElement label="{= ${ClassStatus} !== -2 ? 'Validated On' : 'Rejected On'}">
+															<f:fields>
+																<Text text="{path: 'ValidatedOn', formatter: '.formatter.formatterDate'}"/>
+															</f:fields>
+														</f:FormElement>
+														<f:FormElement label="Status">
+															<f:fields>
+																<Text text="{StatusDescription}"/>
+															</f:fields>
+														</f:FormElement>
+													</f:formElements>
+												</f:FormContainer>
+											</f:formContainers>
+										</f:Form>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+						<!--</List>-->
+					</content>
+				</Panel>
+				<Panel backgroundDesign="Transparent" headerText="Comments" expandable="true" expanded="true">
+					<content>
+						<FeedInput post="onPost" showIcon="false"/>
+						<List id="listComment" noDataText="No comments available" showSeparators="Inner"
+							items="{ path: 'Notes', sorter: { path: 'Date', descending: true } }" growing="true" growingThreshold="5">
+							<CustomListItem>
+								<FeedListItem icon="" showIcon="false" sender="{User}" text="{path: 'Comment', formatter: '.formatter.textToLink'}" info="{Scheme}" timestamp="{Date}" senderActive="false"
+									actions="{path: 'actionsModel>/', templateShareable: false}">
+									<FeedListItemAction text="{actionsModel>Text}" icon="{actionsModel>Icon}" key="{actionsModel>Key}" press="onActionPressed"/>
+								</FeedListItem>
+								<Input id="commentInput" value="{Comment}" visible="false" width="300px" class="sapUiMediumMarginEnd"/>
+								<Button id="commentSaveButton" text="Save" press="onEdit" visible="false" class="sapUiTinyMarginEnd"/>
+								<Button id="commentCancelButton" text="Cancel" press="onCancel" visible="false" class="sapUiTinyMarginEnd"/>
+							</CustomListItem>
+						</List>
+					</content>
+				</Panel>
+				<Panel backgroundDesign="Transparent" headerText="Attributes" expandable="false" expanded="true">
+					<content>
+						<Table id="tabAttributes" items="{path: 'filterCriteriaAttrsModel>/'}" width="auto" noDataText="No Attributes"
+							busyIndicatorDelay="{worklistView>/tableBusyDelay}" growing="false" fixedLayout="false">
+							<columns>
+								<Column id="nameColumn">
+									<Text text="Attribute" id="AttributeColumnTitle"/>
+								</Column>
+								<Column id="DescriptionColumn">
+									<Text text="Value" maxLines="2" id="ValueColumnTitle"/>
+								</Column>
+								<!--<Column id="MLColumn">-->
+								<!--	<Text text="ML" maxLines="2" id="MLColumnTitle"/>-->
+								<!--</Column>-->
+							</columns>
+							<items>
+								<ColumnListItem visible="{path: 'filterCriteriaAttrsModel>Value', formatter: '.formatter.attributeVisibility'}">
+									<cells>
+										<Text text="{filterCriteriaAttrsModel>Name}" maxLines="1"/>
+										<Text text="{path: 'filterCriteriaAttrsModel>Value', formatter: '.formatter.specialChar'}" maxLines="4"/>
+										<!--<Text text="{ML}" maxLines="1" />-->
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+						<Panel backgroundDesign="Transparent" headerText="Other attributes" expandable="true" expanded="false">
+							<content>
+						<Table id="tabAttributes2" items="{path: 'otherAttrsModel>/'}" width="auto" noDataText="No Attributes"
+							busyIndicatorDelay="{worklistView>/tableBusyDelay}" growing="false" fixedLayout="false">
+							<columns>
+								<Column id="nameColumn2">
+									<Text text="Attribute" id="AttributeColumnTitle2"/>
+								</Column>
+								<Column id="DescriptionColumn2">
+									<Text text="Value" maxLines="2" id="ValueColumnTitle2"/>
+								</Column>
+								<!--<Column id="MLColumn">-->
+								<!--	<Text text="ML" maxLines="2" id="MLColumnTitle"/>-->
+								<!--</Column>-->
+							</columns>
+							<items>
+								<ColumnListItem visible="{path: 'otherAttrsModel>Value', formatter: '.formatter.attributeVisibility'}">
+									<cells>
+										<Text text="{otherAttrsModel>Name}" maxLines="1"/>
+										<Text text="{path: 'otherAttrsModel>Value', formatter: '.formatter.specialChar'}" maxLines="4"/>
+										<!--<Text text="{ML}" maxLines="1" />-->
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+						</content>
+						</Panel>
+					</content>
+				</Panel>
+			</l:VerticalLayout>
+		</semantic:content>
+	</semantic:SemanticPage>
+</mvc:View>

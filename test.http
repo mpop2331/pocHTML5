@@ -1,0 +1,41 @@
+
+GET http://localhost:4004/catalog/getCurrentUser()
+Authorization: Basic joe:
+Content-Type: application/json
+
+##
+#
+POST http://localhost:45117/catalog/Classification
+Authorization: Basic bob:bob1
+Content-Type: application/json
+
+{
+        "Product_GUID": "1B7F0370DEE11E27180095FA61CBFD4E",
+        "Scheme": "MIHAI_EU_IMP",
+        "CodeID": "99998544429090",
+        "Priority": null,
+        "ConfidenceLevel": null,
+        "Type": null,
+        "DropOnReset": 1,
+        "Status": 3,
+        "CreatedBy": "S0023904265",
+        "CreatedOn": "2022-08-10T00:00:00.000Z",
+        "AssignedOn": null,
+        "AssignedTo": null,
+        "ClassifiedBy": "S0023904265",
+        "ClassifiedOn": "2022-08-10T00:00:00.000Z",
+        "ValidatedBy": "S0023904265",
+        "ValidatedOn": "2022-08-10T00:00:00.000Z",
+        "ValidFrom": "2022-08-10T00:00:00.000Z",
+        "ValidTill": "2022-08-10T00:00:00.000Z",
+        "ManualClassification": 0,
+        "FromClassificationReq": null,
+        "SentToGTS": null,
+        "SentToML": null,
+        "ValidForML": 1
+}
+
+##
+##
+
+

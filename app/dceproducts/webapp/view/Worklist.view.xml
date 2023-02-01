@@ -1,0 +1,87 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" xmlns:fb="sap.ui.comp.filterbar"
+	controllerName="be.deloitte.dce.dceproducts.controller.Worklist">
+	<semantic:SemanticPage id="idPage" headerPinnable="false" toggleHeaderOnTitleClick="false" showFooter="false">
+		<!--<semantic:titleHeading>-->
+		<!--	<Title text="{i18n>worklistTitle}"/>-->
+		<!--</semantic:titleHeading>-->
+		<semantic:headerContent>
+			<fb:FilterBar id="mainFilterBar" showFilterConfiguration="false" showGoOnFB="true" search="onSearch" showClearOnFB="true" clear="onFBClear">
+				<fb:filterGroupItems>
+					<fb:FilterGroupItem groupName="G1" name="prodID" visibleInFilterBar="true" label="{i18n>tableProdColumnTitle}">
+						<fb:control>
+							<SearchField id="fbsfProdId" tooltip="{i18n>worklistSearchTooltip}" search="onSearch" width="auto"/>
+						</fb:control>
+					</fb:FilterGroupItem>
+					<fb:FilterGroupItem groupName="G1" name="prodDesc" visibleInFilterBar="true" label="{i18n>tablePDescColumnTitle}">
+						<fb:control>
+							<SearchField id="fbsfProdDesc" tooltip="{i18n>worklistSearchTooltip}" search="onSearch" width="auto"/>
+						</fb:control>
+					</fb:FilterGroupItem>
+					<fb:FilterGroupItem groupName="G1" name="upOn" visibleInFilterBar="true" label="{i18n>tableUploadedOnTitle}">
+						<fb:control>
+							<DateRangeSelection id="fbsfUpOn" displayFormat="dd/MM/yyyy" change="onSearch"/>
+						</fb:control>
+					</fb:FilterGroupItem>
+					<fb:FilterGroupItem groupName="G1" name="upBy" visibleInFilterBar="true" label="{i18n>tableUploadedByTitle}">
+						<fb:control>
+							<SearchField id="fbsfUpBy" tooltip="{i18n>worklistSearchTooltip}" search="onSearch" width="auto"/>
+						</fb:control>
+					</fb:FilterGroupItem>
+					<fb:FilterGroupItem groupName="G1" name="fName" visibleInFilterBar="true" label="{i18n>tableFilenameTitle}">
+						<fb:control>
+							<SearchField id="fbsfFName" tooltip="{i18n>worklistSearchTooltip}" search="onSearch" width="auto"/>
+						</fb:control>
+					</fb:FilterGroupItem>
+				</fb:filterGroupItems>
+			</fb:FilterBar>
+		</semantic:headerContent>
+		<semantic:content>
+			<Table id="tabProducts" items="{path: '/Products', sort:{path:'ID'}}" width="auto" noDataText="{worklistView>/tableNoDataText}"
+				busyIndicatorDelay="{worklistView>/tableBusyDelay}" growing="true" growingScrollToLoad="true" fixedLayout="false"
+				updateFinished="onUpdateFinished" mode="MultiSelect" selectionChange="onTabSelectChange">
+				<headerToolbar>
+					<Toolbar>
+						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}"/>
+						<ToolbarSpacer/>
+						<Button id="downloadButton" tooltip="Download All" press="onDownload" icon="sap-icon://download"/>
+						<Button id="filterButton" tooltip="Filters" press=".onFilterBtnPress" icon="sap-icon://filter" type="Transparent"/>
+						<Button id="sortButton" tooltip="Sorters" press=".onOpenViewSettings" icon="sap-icon://sort" type="Transparent"/>
+						<Button id="groupButton" tooltip="Groupers" press=".onOpenViewSettings" icon="sap-icon://group-2" type="Transparent"/>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column id="nameColumn">
+						<Text text="{i18n>tableProdColumnTitle}" id="nameColumnTitle"/>
+					</Column>
+					<Column id="DescriptionColumn">
+						<Text text="{i18n>tablePDescColumnTitle}" maxLines="2" id="descriptionColumnTitle"/>
+					</Column>
+					<Column id="CreatedByColumn">
+						<Text text="{i18n>tableUploadedOnTitle}" maxLines="2" id="UploadedByColumnTitle"/>
+					</Column>
+					<Column id="CreatedOnColumn">
+						<Text text="{i18n>tableUploadedByTitle}" maxLines="2" id="UploadedOnColumnTitle"/>
+					</Column>
+					<Column id="FilenameColumn">
+						<Text text="{i18n>tableFilenameTitle}" maxLines="2" id="FilenameColumnTitle"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem id="colList" type="Navigation" press="onPress">
+						<cells>
+							<Text text="{ID}" maxLines="1"/>
+							<Text text="{path: 'Description', formatter: '.formatter.specialChar'}" maxLines="4"/>
+							<Text text="{ path: 'UploadedOn', formatter: '.formatter.formatterDate'}" maxLines="1"/>
+							<Text text="{UploadedBy}" maxLines="1"/>
+							<Text text="{FileName}" maxLines="1"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</semantic:content>
+		<semantic:footerCustomActions>
+			<Button id="btnDelete" press="onDelete" icon="sap-icon://delete" type="Reject" visible="false" enabled="false"
+				text="Delete the selected products"/>
+		</semantic:footerCustomActions>
+	</semantic:SemanticPage>
+</mvc:View>

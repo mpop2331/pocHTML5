@@ -1,0 +1,129 @@
+{
+  "name": "pocHTML",
+  "version": "0.0.1",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "description": "Business Application",
+  "engines": {
+    "node": "^16"
+  },
+  "dependencies": {
+    "@sap/cds": "^6.1",
+    "@sap/audit-logging": "^5",
+    "hdb": "^0.19",
+    "@sap/cds-odata-v2-adapter-proxy": "^1",
+
+    "@sap-cloud-sdk/http-client": "^2.5",
+    "@sap/xsenv": "^3",
+    "@sap/xssec": "^3",
+    "passport": "^0.4.1",
+
+    "debug": "^4.3",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@sap/ux-specification": "^1.96.4"
+  },
+  "sapux": [
+    "app/dceproducts"
+  ],
+  "scripts": {
+    "start": "cds run"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "es2020": true,
+      "node": true,
+      "jest": true,
+      "mocha": true
+    },
+    "globals": {
+      "SELECT": true,
+      "INSERT": true,
+      "UPDATE": true,
+      "DELETE": true,
+      "CREATE": true,
+      "DROP": true,
+      "CDL": true,
+      "CQL": true,
+      "CXL": true,
+      "cds": true
+    },
+    "rules": {
+      "no-console": "off",
+      "require-atomic-updates": "off"
+    }
+  },
+  "cds": {
+    "hana": {
+      "deploy-format": "hdbtable"
+    },
+    "requires": {
+      "uaa": {
+        "kind": "xsuaa"
+      },
+      "auth": {
+        "[production]": {
+          "strategy": "JWT"
+        },
+        "[development]": {
+          "strategy": "mock",
+          "users": {
+            "joe": {
+              "roles": [
+                "Admin",
+                "Viewer"
+              ]
+            },
+            "julie": {
+              "roles": [
+                "Viewer"
+              ]
+            },
+            "bob": {
+              "roles": [
+                "Viewer"
+              ]
+            }
+          }
+        }
+      }
+      ,
+      "db": {
+        "[production]": {
+          "kind": "hana-cloud"
+          ,"model": [
+            "db/data-config",
+            "db/data-test"
+          ]
+        },
+        "[development]": {
+          "kind": "sql"
+          ,"model": [
+            "db/data-config",
+            "db/data-test"
+          ]
+        },
+        "model": [
+          "db",
+          "srv"
+        ]
+      }
+      ,
+      "API_SALES_ORDER_SRV": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_SALES_ORDER_SRV",
+        "credentials": {
+          "[production]": {
+            "destination": "pocHTML-API_SALES_ORDER_SRV",
+            "path": "s4hanacloud/sap/opu/odata/sap/API_SALES_ORDER_SRV"
+          },
+          "[development]": {
+            "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_SALES_ORDER_SRV"
+          }
+        }
+      }
+    }
+  }
+}

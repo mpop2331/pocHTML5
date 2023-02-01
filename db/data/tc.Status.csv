@@ -1,0 +1,26 @@
+ID,Object,Name
+0,Scheme,Import
+1,Scheme,Export
+2,Scheme,Import and Export
+0,Classification,Created
+0,Product,Undecided
+1,Product,Approved
+2,Product,Declined
+1,Classification,Assigned
+3,Classification,Classified
+0,User,Deactivated
+1,User,Active
+2,User,Deleted
+3,Product,Deleted
+-1,Classification,Archived
+2,Classification,Under validation
+-2,Classification,Rejected
+4,Product,InProcess
+-3,Classification,Attribute settings pending
+-4,Classification,To be reviewed
+1,ECCN,To be classified
+2,ECCN,Under validation
+0,ECCN,Created
+3,ECCN,Classified
+4,ECCN,Rejected
+4,Classification,Updated
